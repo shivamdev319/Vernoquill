@@ -1,0 +1,194 @@
+<%- include('partials/header') %>
+
+<div class="hero-section">
+    <div class="floating-elements">
+        <div class="element"><i class="fas fa-feather-alt"></i></div>
+        <div class="element"><i class="fas fa-pen"></i></div>
+        <div class="element"><i class="fas fa-quote-right"></i></div>
+        <div class="element"><i class="fas fa-book-open"></i></div>
+    </div>
+    <div class="hero-content">
+        <h1 class="hero-title typing-text" data-text="Welcome to Vernoquill"></h1>
+        <p class="hero-subtitle typing-text" data-text="Where words flow like ink from a quill" data-delay="2000"></p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Messages -->
+    <% if (typeof success !== 'undefined' || typeof error !== 'undefined') { %>
+        <div class="messages">
+            <% if (typeof success !== 'undefined') { %>
+                <div class="message success">
+                    <i class="fas fa-check-circle"></i>
+                    <%= success %>
+                </div>
+            <% } %>
+            <% if (typeof error !== 'undefined') { %>
+                <div class="message error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <%= error %>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+
+    <!-- Create New Post Form (Only for authenticated writers) -->
+    <% if (isAuthenticated) { %>
+    <section class="create-post-section">
+        <div class="section-header">
+            <h2 class="section-title">Create New Post</h2>
+            <button class="toggle-form-btn" onclick="toggleCreateForm()">
+                <i class="fas fa-plus"></i>
+                <span>New Post</span>
+            </button>
+        </div>
+        
+        <div class="create-form-container" id="createFormContainer" style="display: none;">
+            <form class="create-form" action="/posts" method="POST">
+                <div class="form-group">
+                    <label for="title">
+                        <i class="fas fa-heading"></i>
+                        Title
+                    </label>
+                    <input type="text" id="title" name="title" required placeholder="Enter post title">
+                </div>
+                
+                <div class="form-group">
+                    <label for="author">
+                        <i class="fas fa-user"></i>
+                        Author
+                    </label>
+                    <input type="text" id="author" name="author" required placeholder="Your name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="content">
+                        <i class="fas fa-edit"></i>
+                        Content
+                    </label>
+                    <textarea id="content" name="content" required placeholder="Write your post content here..." rows="8"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i>
+                        Publish Post
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="toggleCreateForm()">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <% } %>
+
+    <section class="blog-posts">
+        <h2 class="section-title">Latest Posts</h2>
+        
+        <% if (posts && posts.length > 0) { %>
+            <div class="posts-grid">
+                <% posts.forEach(post => { %>
+                    <article class="post-card">
+                        <div class="post-header">
+                            <h3 class="post-title">
+                                <a href="/post/<%= post.id %>"><%= post.title %></a>
+                            </h3>
+                            <div class="post-meta">
+                                <span class="post-author">
+                                    <i class="fas fa-user"></i>
+                                    <%= post.author %>
+                                </span>
+                                <span class="post-date">
+                                    <i class="fas fa-calendar"></i>
+                                    <%= new Date(post.date).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    }) %>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p class="post-excerpt"><%= post.excerpt %></p>
+                            <div class="post-actions">
+                                <a href="/post/<%= post.id %>" class="read-more">
+                                    Read More
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                                <% if (isAuthenticated) { %>
+                                <div class="post-controls">
+                                    <a href="/post/<%= post.id %>/edit" class="btn-edit" title="Edit post">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn-delete" data-post-id="<%= post.id %>" title="Delete post">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <div class="no-posts">
+                <i class="fas fa-pen-alt"></i>
+                <h3>No posts yet</h3>
+                <p>Create your first blog post using the form above!</p>
+            </div>
+        <% } %>
+    </section>
+</div>
+
+<script>
+    function toggleCreateForm() {
+        const container = document.getElementById('createFormContainer');
+        const button = document.querySelector('.toggle-form-btn');
+        
+        if (container.style.display === 'none') {
+            container.style.display = 'block';
+            button.innerHTML = '<i class="fas fa-minus"></i><span>Cancel</span>';
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            container.style.display = 'none';
+            button.innerHTML = '<i class="fas fa-plus"></i><span>New Post</span>';
+        }
+    }
+
+    function deletePost(postId) {
+        if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/post/${postId}/delete`;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    // Show messages temporarily
+    const messages = document.querySelectorAll('.message');
+    messages.forEach(message => {
+        setTimeout(() => {
+            message.style.opacity = '0';
+            setTimeout(() => {
+                message.remove();
+            }, 300);
+        }, 5000);
+    });
+
+    // Parse URL parameters for messages
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+    const error = urlParams.get('error');
+    
+    if (success || error) {
+        // Clean URL after showing message
+        setTimeout(() => {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }, 1000);
+    }
+</script>
+
+<%- include('partials/footer') %>

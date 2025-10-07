@@ -1,0 +1,101 @@
+<%- include('partials/header') %>
+
+<div class="container">
+  <!-- Dashboard Header with Logout -->
+  <div class="dashboard-header">
+    <div class="dashboard-title">
+      <h1><i class="fas fa-tachometer-alt"></i> Writer Dashboard</h1>
+      <p>Welcome back, <%= currentUser.username %>! Manage your blog posts below.</p>
+    </div>
+    <div class="dashboard-actions">
+      <a href="/" class="btn-secondary">
+        <i class="fas fa-home"></i>
+        View Blog
+      </a>
+      <form action="/logout" method="POST" style="display: inline;">
+        <button type="submit" class="btn-danger logout-btn-dashboard">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <% if (typeof success !== 'undefined' || typeof error !== 'undefined') { %>
+    <div class="messages">
+      <% if (typeof success !== 'undefined') { %>
+        <div class="message success">
+          <i class="fas fa-check-circle"></i>
+          <%= success %>
+        </div>
+      <% } %>
+      <% if (typeof error !== 'undefined') { %>
+        <div class="message error">
+          <i class="fas fa-exclamation-circle"></i>
+          <%= error %>
+        </div>
+      <% } %>
+    </div>
+  <% } %>
+
+  <section class="create-post-section">
+    <div class="section-header">
+      <h2 class="section-title">Create New Post</h2>
+    </div>
+    <div class="create-form-container">
+      <form class="create-form" action="/posts" method="POST">
+        <div class="form-group">
+          <label for="title"><i class="fas fa-heading"></i> Title</label>
+          <input type="text" id="title" name="title" required placeholder="Enter post title">
+        </div>
+        <div class="form-group">
+          <label for="author"><i class="fas fa-user"></i> Author</label>
+          <input type="text" id="author" name="author" required placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="content"><i class="fas fa-edit"></i> Content</label>
+          <textarea id="content" name="content" required placeholder="Write your post content here..." rows="8"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Publish Post</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="blog-posts">
+    <h2 class="section-title">Manage Posts</h2>
+
+    <% if (posts && posts.length > 0) { %>
+      <div class="posts-grid">
+        <% posts.forEach(post => { %>
+          <article class="post-card">
+            <div class="post-header">
+              <h3 class="post-title"><a href="/post/<%= post.id %>"><%= post.title %></a></h3>
+              <div class="post-meta">
+                <span class="post-author"><i class="fas fa-user"></i><%= post.author %></span>
+                <span class="post-date"><i class="fas fa-calendar"></i><%= post.date %></span>
+              </div>
+              <p class="post-excerpt"><%= post.excerpt %></p>
+              <div class="post-actions">
+                <a href="/post/<%= post.id %>" class="read-more">View <i class="fas fa-arrow-right"></i></a>
+                <div class="post-controls">
+                  <a href="/post/<%= post.id %>/edit" class="btn-edit" title="Edit post"><i class="fas fa-edit"></i></a>
+                  <button class="btn-delete" data-post-id="<%= post.id %>" title="Delete post"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="no-posts">
+        <i class="fas fa-pen-alt"></i>
+        <p>No posts yet. Create your first post above.</p>
+      </div>
+    <% } %>
+  </section>
+</div>
+
+<%- include('partials/footer') %>

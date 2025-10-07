@@ -1,0 +1,43 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="login-container">
+        <h1>Writer Login</h1>
+        <p>Only authorized writers can create, edit, and delete blog posts.</p>
+        
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
+        
+        <form action="/login" method="POST" class="login-form">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        
+        <div class="login-info">
+            <h3>Demo Credentials:</h3>
+            <p><strong>Username:</strong> writer</p>
+            <p><strong>Password:</strong> password123</p>
+        </div>
+    </div>
+    
+    <div style="text-align:center;margin-top:1rem;">
+        <a href="/" class="read-more">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

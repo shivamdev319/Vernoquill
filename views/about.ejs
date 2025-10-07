@@ -1,0 +1,100 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="about-content">
+        <header class="about-header">
+            <h1 class="about-title">About Vernoquill</h1>
+        </header>
+
+        <div class="about-text">
+            <p>Welcome to Vernoquill, where words flow like ink from a quill. Our platform is designed for writers, readers, and anyone who appreciates the art of storytelling.</p>
+            
+            <p>Built with modern web technologies including Node.js, Express, and EJS, Vernoquill offers a clean, responsive, and user-friendly blogging experience. Whether you're sharing technical insights, creative writing, or personal thoughts, our platform provides the perfect canvas for your words.</p>
+            
+            <p>The name "Vernoquill" combines "vernal" (meaning fresh and new) with "quill" (the traditional writing instrument), symbolizing our commitment to bringing fresh perspectives through the timeless art of writing.</p>
+        </div>
+
+        <div class="features-section">
+            <h2>Features</h2>
+            <ul class="features-list">
+                <li><strong>Clean Design:</strong> Focus on readability and user experience</li>
+                <li><strong>Responsive Layout:</strong> Perfect viewing on any device</li>
+                <li><strong>Fast Loading:</strong> Optimized for speed and performance</li>
+                <li><strong>Social Sharing:</strong> Easy sharing across social platforms</li>
+                <li><strong>Modern Technology:</strong> Built with the latest web standards</li>
+            </ul>
+        </div>
+
+        <div class="tech-stack">
+            <h2>Technology Stack</h2>
+            <p>Vernoquill is built using:</p>
+            <ul>
+                <li><strong>Node.js:</strong> Server-side JavaScript runtime</li>
+                <li><strong>Express.js:</strong> Fast, minimalist web framework</li>
+                <li><strong>EJS:</strong> Embedded JavaScript templating</li>
+                <li><strong>CSS3:</strong> Modern styling and responsive design</li>
+                <li><strong>Font Awesome:</strong> Beautiful icons</li>
+            </ul>
+        </div>
+
+        <div class="contact-section">
+            <h2>Get in Touch</h2>
+            <p>Have questions, suggestions, or just want to say hello? We'd love to hear from you!</p>
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> contact@vernoquill.com</p>
+                <p><i class="fas fa-globe"></i> www.vernoquill.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .features-section, .tech-stack, .contact-section {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+    }
+    
+    .features-section h2, .tech-stack h2, .contact-section h2 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+    
+    .features-list, .tech-stack ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    
+    .features-list li, .tech-stack li {
+        margin-bottom: 0.8rem;
+        padding-left: 1.5rem;
+        position: relative;
+    }
+    
+    .features-list li:before, .tech-stack li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #3498db;
+        font-weight: bold;
+    }
+    
+    .contact-info {
+        margin-top: 1rem;
+    }
+    
+    .contact-info p {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .contact-info i {
+        color: #3498db;
+        width: 20px;
+    }
+</style>
+
+<%- include('partials/footer') %>
